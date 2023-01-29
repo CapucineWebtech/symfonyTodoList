@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('formUser') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('formUser') }}
+{% endblock %}
+
+{% block body %}
+    {{ component('navBarComponent') }}
+    <div class="form-container m-auto">
+    {{ form_start(registrationForm) }}
+        {% if form_errors(registrationForm.email) %}
+            <div class="alert alert-danger">{{ form_errors(registrationForm.email) }}</div>
+        {% endif %}
+        {% if form_errors(registrationForm.plainPassword) %}
+            <div class="alert alert-danger">{{ form_errors(registrationForm.plainPassword) }}</div>
+        {% endif %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Créer un compte</h1>
+
+        {{ form_label(registrationForm.email, 'Email') }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control mb-3'}}) }}
+
+        {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control mb-4'}}) }}
+        <button type="submit" class="btn btn-lg btn-primary d-block m-auto">Créer mon compte</button>
+    {{ form_end(registrationForm) }}
+
+    </div>
+
+
+{% endblock %}

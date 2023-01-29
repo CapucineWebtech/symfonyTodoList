@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une tâche{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('formTask') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('formTask') }}
+{% endblock %}
+
+{% block body %}
+    {{ component('navBarComponent', { userName: userName }) }}
+    <div class="big-container">
+        {% if form_errors(form.name) %}
+            <div class="alert alert-danger">{{ form_errors(form.name) }}</div>
+        {% endif %}
+        <h1 class="text-center">Créer une nouvelle tâche</h1>
+        {{ form_start(form) }}
+        <div class="form-group mb-2">
+            {{ form_label(form.name, 'Nom de la tâche') }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group mb-2">
+            {{ form_label(form.description, 'Description de la tâche') }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control form-textarea'}}) }}
+        </div>
+        <div class="d-flex mb-2">
+            <div class="form-group w-50 me-2">
+                {{ form_label(form.endDate, 'Date de fin de la tâche') }}
+                {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group w-50 ms-2">
+                {{ form_label(form.picture_name, 'Photo associée à la tâche') }}
+                {{ form_widget(form.picture_name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group mb-2">
+            {{ form_label(form.status, 'Status de la tâche') }}
+            {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <br>
+        <div class="text-center">
+            <a class="btn btn-warning" href="{{ url('app_index') }}">Revenir à l'accueil</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
