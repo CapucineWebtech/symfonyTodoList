@@ -7,6 +7,7 @@ use App\Repository\TodoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,10 @@ class HomeController extends AbstractController
         $this->em = $em;
     }
 
+    /**
+     * @param TodoRepository $todoRepository
+     * @return Response
+     */
     #[IsGranted('ROLE_USER')]
     #[Route('/', name: 'app_index')]
     public function index(TodoRepository $todoRepository): Response
@@ -37,6 +42,10 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[IsGranted('ROLE_USER')]
     #[Route('/addTask', name: 'app_addTask')]
     public function addTask(Request $request): Response
@@ -81,6 +90,11 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Todo $todo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     #[IsGranted('ROLE_USER')]
     #[Route('/editTask/{id}', name: 'app_editTask')]
     public function editTask(Todo $todo, Request $request)
@@ -118,9 +132,14 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Todo $todo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     #[IsGranted('ROLE_USER')]
     #[Route('/deleteTask/{id}', name: 'app_deleteTask', methods: ['DELETE'])]
-    public function deleteTask(Todo $todo, Request $request)
+    public function deleteTask(Todo $todo, Request $request) : RedirectResponse
     {
         if ($this->getUser() !== $todo->getUser()){
             return $this->redirectToRoute('app_index');
